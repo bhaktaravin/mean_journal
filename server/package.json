@@ -8,8 +8,6 @@
     "mongoose": "^7.6.3"
   },
   "scripts": {
-    "start": "node app.js",
-    "install": "yarn add"
-
+    "start": "node app.js"
   }
 }
