@@ -1,0 +1,15 @@
+
+
+
+  <div *ngFor="let item of entries">
+    <mat-card class="exmaple-card">
+      <mat-card-header>
+        <mat-card-title>{{ item.title }} </mat-card-title>
+        <mat-card-subtitle> {{ item.createdOn }} </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p> {{ item.body }} </p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  
