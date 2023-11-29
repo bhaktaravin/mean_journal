@@ -17,21 +17,14 @@ export class CreateEntryComponent {
       createdOn:[Date.now()],
       updatedOn: [Date.now()]
     });
-  } 
+  }
   submitNewEntry() {
     if(this.entryForm.valid){
-      const formData = this.entryForm.value; 
+      const formData = this.entryForm.value;
 
       console.log(formData);
 
-      this.apiService.post('',formData).subscribe(
-      (response) => {
-        console.log(response);
-      },
-      (error) => {
-        console.error("Error submitting:", error);
-      }
-      )
+      
     }
   }
 

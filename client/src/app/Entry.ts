@@ -1,7 +1,16 @@
-export interface Entry {
-    id: string,
-    title: string, 
-    body: string, 
-    createdOn: Date,
-    updatedOn: Date
+class Entry {
+    title: string
+    body: string
+    createdOn: Number
+    updatedOn: Number
+
+    constructor(){
+        this.title = "" ,
+        this.body = "",
+        this.createdOn = Date.now(),
+        this.updatedOn = Date.now()
+
+    }
 }
+
+export default Entry;

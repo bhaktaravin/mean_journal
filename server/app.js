@@ -1,38 +1,42 @@
-const express = require("express");
-const mongoose = require("mongoose");
+require('dotenv').config({ path: "./config.env"}); 
 
-const cors = require("cors");
+const express = require('express'); 
+const bodyParser = require('body-parser'); 
+const mongoose = require('mongoose'); 
 
-const entryRouter = require("./routes/entry");
+const entryRouter = require('./routes/entry'); 
 
-const app = express();
-app.use(cors({ origin: "*" }));
-require("dotenv").config({ path: __dirname + "/config.env" });
 
-const PORT = process.env.PORT || 5000;
+const app = express(); 
 
-app.use(express.json());
+mongoose.connect("mongodb+srv://userOne:JUECc9PuA8RE5X69@cluster0.bff6seb.mongodb.net/journal", {
+  useNewUrlParser: true
+}); 
 
-mongoose.Promise = global.Promise;
-const url = process.env.MONGO_URI;
-console.log(url);
-//Connect to MongoDB
-mongoose
-  .connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => {
-    console.log("Connected to DB");
-  })
-  .catch(() => {
-    console.error("Failed to connect to DB");
-  });
-app.use("/api/entries", entryRouter);
+const conn = mongoose.connection; 
 
-app.get("/test", (req, res) => {
-  res.send("Testing...");
+conn.on('open', () => {
+  console.log('DB is connected...');
 });
-app.listen(PORT, (req, res) => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+
+
+app.use(bodyParser.json()); 
+
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Credentials", "true");
+    res.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
+    res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+    next();
 });
+app.use('/api', entryRouter); 
+
+app.get("/",(req,res) => {{
+  res.send("<h1>Testing</h1>");
+}})
+
+
+app.listen('8080', ()=>{
+  console.log(`Server is running at port : 8080`);
+})

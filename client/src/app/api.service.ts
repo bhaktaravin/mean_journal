@@ -1,5 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable, map } from 'rxjs';
+import Entry from './Entry';
+
 
 @Injectable({
   providedIn: 'root'
@@ -7,19 +10,23 @@ import { Injectable } from '@angular/core';
 export class ApiService {
 
   constructor(private http:HttpClient) { }
-  private baseUrl='http://localhost:8080/api/entries';
- // private baseUrl = 'https://journalapi-gj6j.onrender.com/api/entries';
+  private baseUrl='http://localhost:8080/api';
+  //private baseUrl = 'https://journalapi-gj6j.onrender.com/api/entries';
 
-  get(endpoint: string) {
-    const url = `${this.baseUrl}/${endpoint}`;
-    return this.http.get(url);
-  }
-
-  post(endpoint: string, data: any) {
-    const url = `${this.baseUrl}/${endpoint}`; 
-    console.log(url, data);
-    return this.http.post(url, data);
+  getAll(): Observable<any> {
+    return this.http.get<any>(this.baseUrl + "/")
+    .pipe(map((res: any) => {
+      return res.data;
+    }))
     
   }
 
+  createEntry(data: Entry): Observable<any> {
+    console.log('Creating Entry - ', data);
+    return this.http.post(`${this.baseUrl}/createEntry`,data);
+  }
+
 }
+
+
+
